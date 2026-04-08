@@ -1,19 +1,12 @@
 package telemetry
 
 import (
-	"bytes"
-	"encoding/json"
-	"log"
-	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
 )
 
 type TelemetryData struct {
-	Route      string    `json:"route"`
-	APIVersion string    `json:"apiVersion"`
-	Timestamp  time.Time `json:"timestamp"`
+	Route      string `json:"route"`
+	APIVersion string `json:"apiVersion"`
 }
 
 type telemetryService struct{}
@@ -31,30 +24,7 @@ type TelemetryService interface {
 }
 
 func SendTelemetry(route string) {
-	if route == "/" {
-		return
-	}
-
-	telemetry := TelemetryData{
-		Route:      route,
-		APIVersion: "evo-go",
-		Timestamp:  time.Now(),
-	}
-
-	url := "https://log.evolution-api.com/telemetry"
-
-	data, err := json.Marshal(telemetry)
-	if err != nil {
-		log.Println("Erro ao serializar telemetria:", err)
-		return
-	}
-
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(data))
-	if err != nil {
-		log.Println("Erro ao enviar telemetria:", err)
-		return
-	}
-	defer resp.Body.Close()
+	return
 }
 
 func NewTelemetryService() TelemetryService {
